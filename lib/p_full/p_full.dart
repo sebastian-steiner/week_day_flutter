@@ -46,11 +46,15 @@ class _PFullState extends State<PFull> {
   }
 
   Date createDate() {
-    Date date = new Date()
-        .withYear(rng.nextInt(widget.maxCentury - widget.minCentury + 1) + widget.minCentury
-        + rng.nextInt(widget.maxYear - widget.minYear + 1) + widget.minYear)
-        .withMonth(rng.nextInt(12));
-    return date.withDay(rng.nextInt(Date.maxDayFromDate(date.month, year: date.year) - 1) + 1);
+    int century = (rng.nextInt((widget.maxCentury - widget.minCentury) ~/ 100 + 1) * 100) + widget.minCentury;
+    int year = rng.nextInt(widget.maxYear - widget.minYear + 1) + widget.minYear;
+    int month = rng.nextInt(12);
+    int day = rng.nextInt(Date.maxDayFromDate(month, year: year)) + 1;
+    return new Date(
+      year: century + year,
+      month: month,
+      day: day
+    );
   }
 
   @override

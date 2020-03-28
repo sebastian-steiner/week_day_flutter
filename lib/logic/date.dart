@@ -3,20 +3,7 @@ class Date {
   int month;
   int year;
 
-  Date withDay(int day) {
-    this.day = day;
-    return this;
-  }
-
-  Date withMonth(int month) {
-    this.month = month;
-    return this;
-  }
-
-  Date withYear(int year) {
-    this.year = year;
-    return this;
-  }
+  Date({this.day, this.month, this.year});
 
   String formatDate(bool withMonthName) {
     if (withMonthName) {
