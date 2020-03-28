@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:week_day_flutter/logic/date.dart';
+import 'package:week_day_flutter/logic/stat_saver.dart';
+import 'package:week_day_flutter/logic/statistics.dart';
 import 'package:week_day_flutter/widgets/answer_button.dart';
 
 import 'p_century_end.dart';
@@ -19,9 +21,7 @@ class _PCenturyState extends State<PCentury> {
   List<int> remainingCodes;
   Stopwatch watch;
 
-  // stats
-  List<Duration> times;
-  int errors;
+  Statistics stats;
 
   List<int> setupCodes() {
     List<int> remaining = new List();
@@ -34,10 +34,8 @@ class _PCenturyState extends State<PCentury> {
   @override
   void initState() {
     super.initState();
-    times = new List();
     remainingCodes = setupCodes();
     remainingCodes.shuffle();
-    errors = 0;
     watch = Stopwatch();
   }
 
@@ -99,24 +97,28 @@ class _PCenturyState extends State<PCentury> {
     );
   }
 
-  void answer(int val) {
+  void answer(int val) async {
     int curr = Date.centuryCode(remainingCodes.last ~/ 100);
     if (curr == val) {
+      if (remainingCodes.length == 1) {
+        await new StatSaver().saveStats('pcentury', stats);
+      }
+
       setState(() {
         // time
         watch.stop();
-        times.add(watch.elapsed);
+        stats.times.add(watch.elapsed);
         watch.reset();
 
         remainingCodes.removeLast();
         if (remainingCodes.isEmpty) {
           Navigator.of(context)
-              .pushReplacement(MaterialPageRoute(builder: (_) => PCenturyEnd(times: times, errors: errors)));
+              .pushReplacement(MaterialPageRoute(builder: (_) => PCenturyEnd(stats: stats)));
         }
       });
     } else {
       setState(() {
-        errors++;
+        stats.errors++;
       });
     }
   }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:week_day_flutter/logic/statistics.dart';
 import 'package:week_day_flutter/widgets/named_navigator_button.dart';
 import 'package:week_day_flutter/widgets/navigator_pop_button.dart';
 
 class PMonthEnd extends StatelessWidget {
-  final List<Duration> times;
-  final int errors;
+  final Statistics stats;
 
-  PMonthEnd({@required this.times, @required this.errors});
+  PMonthEnd({@required this.stats});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class PMonthEnd extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline2,
                 ),
                 Text(
-                  "$errors",
+                  "${stats.errors}",
                   style: Theme.of(context).textTheme.headline1,
                 ),
                 Spacer(),
@@ -50,9 +50,9 @@ class PMonthEnd extends StatelessWidget {
   }
 
   String avgTime() {
-    int sum = times
+    int sum = stats.times
         .map((d) => d.inMilliseconds)
         .fold(0, (previousValue, element) => previousValue + element);
-    return (sum / times.length / 1000).toStringAsFixed(3);
+    return (sum / stats.times.length / 1000).toStringAsFixed(3);
   }
 }

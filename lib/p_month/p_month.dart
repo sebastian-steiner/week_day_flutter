@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:week_day_flutter/logic/date.dart';
+import 'package:week_day_flutter/logic/stat_saver.dart';
+import 'package:week_day_flutter/logic/statistics.dart';
 import 'package:week_day_flutter/widgets/answer_button.dart';
 
 import 'p_month_end.dart';
@@ -18,9 +20,7 @@ class _PMonthState extends State<PMonth> {
   List<int> remainingCodes;
   Stopwatch watch;
 
-  // stats
-  List<Duration> times;
-  int errors;
+  Statistics stats;
 
   List<int> setupCodes() {
     List<int> remaining = new List();
@@ -33,10 +33,9 @@ class _PMonthState extends State<PMonth> {
   @override
   void initState() {
     super.initState();
-    times = new List();
+    stats = new Statistics();
     remainingCodes = setupCodes();
     remainingCodes.shuffle();
-    errors = 0;
     watch = Stopwatch();
   }
 
@@ -98,24 +97,28 @@ class _PMonthState extends State<PMonth> {
     );
   }
 
-  void answer(int val) {
+  void answer(int val) async {
     int curr = Date.monthCodes[remainingCodes.last];
     if (curr == val) {
+      if (remainingCodes.length == 1) {
+        await new StatSaver().saveStats('pmonth', stats);
+      }
+
       setState(() {
         // time
         watch.stop();
-        times.add(watch.elapsed);
+        stats.times.add(watch.elapsed);
         watch.reset();
 
         remainingCodes.removeLast();
         if (remainingCodes.isEmpty) {
           Navigator.of(context)
-              .pushReplacement(MaterialPageRoute(builder: (_) => PMonthEnd(times: times, errors: errors)));
+              .pushReplacement(MaterialPageRoute(builder: (_) => PMonthEnd(stats: stats)));
         }
       });
     } else {
       setState(() {
-        errors++;
+        stats.errors++;
       });
     }
   }

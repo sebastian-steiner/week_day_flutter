@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:week_day_flutter/logic/date.dart';
+import 'package:week_day_flutter/logic/stat_saver.dart';
+import 'package:week_day_flutter/logic/statistics.dart';
 import 'package:week_day_flutter/widgets/answer_button.dart';
 
 import 'p_full_end.dart';
@@ -33,9 +35,7 @@ class _PFullState extends State<PFull> {
   Stopwatch watch;
   Random rng;
 
-  // stats
-  List<Duration> times;
-  int errors;
+  Statistics stats;
 
   List<Date> setupCodes() {
     List<Date> remaining = new List();
@@ -62,8 +62,7 @@ class _PFullState extends State<PFull> {
     super.initState();
     rng = new Random();
     watch = Stopwatch();
-    times = new List();
-    errors = 0;
+    stats = new Statistics();
     remainingCodes = setupCodes();
     remainingCodes.shuffle();
   }
@@ -126,24 +125,28 @@ class _PFullState extends State<PFull> {
     );
   }
 
-  void answer(int val) {
+  void answer(int val) async {
     int curr = remainingCodes.last.weekDay();
     if (curr == val) {
+      if (remainingCodes.length == 1) {
+        await new StatSaver().saveStats('pfull', stats);
+      }
+
       setState(() {
         // time
         watch.stop();
-        times.add(watch.elapsed);
+        stats.times.add(watch.elapsed);
         watch.reset();
 
         remainingCodes.removeLast();
         if (remainingCodes.isEmpty) {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (_) => PFullEnd(times: times, errors: errors)));
+              builder: (_) => PFullEnd(stats: stats)));
         }
       });
     } else {
       setState(() {
-        errors++;
+        stats.errors++;
       });
     }
   }
