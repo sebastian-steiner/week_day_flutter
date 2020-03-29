@@ -14,7 +14,10 @@ Statistics _$StatisticsFromJson(Map<String, dynamic> json) {
     ..errors = json['errors'] as int
     ..startTime = json['startTime'] == null
         ? null
-        : DateTime.parse(json['startTime'] as String);
+        : DateTime.parse(json['startTime'] as String)
+    ..options = (json['options'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    );
 }
 
 Map<String, dynamic> _$StatisticsToJson(Statistics instance) =>
@@ -22,4 +25,5 @@ Map<String, dynamic> _$StatisticsToJson(Statistics instance) =>
       'times': instance.times?.map((e) => e?.inMicroseconds)?.toList(),
       'errors': instance.errors,
       'startTime': instance.startTime?.toIso8601String(),
+      'options': instance.options,
     };

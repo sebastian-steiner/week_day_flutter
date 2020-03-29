@@ -13,6 +13,14 @@ class Date {
     }
   }
 
+  String formatDayMonth(bool withMonthName) {
+    if (withMonthName) {
+      return "$day of ${monthNames[month]}";
+    } else {
+      return "$day.${month + 1}";
+    }
+  }
+
   int weekDay() {
     int monthCode = monthCodes[month];
     int yearCode;

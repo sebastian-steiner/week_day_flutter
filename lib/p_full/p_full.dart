@@ -129,6 +129,14 @@ class _PFullState extends State<PFull> {
     int curr = remainingCodes.last.weekDay();
     if (curr == val) {
       if (remainingCodes.length == 1) {
+        stats.options.addAll({
+          "count": widget.count.toString(),
+          "minYear": widget.minYear.toString(),
+          "maxYear": widget.maxYear.toString(),
+          "minCentury": widget.minCentury.toString(),
+          "maxCentury": widget.maxCentury.toString(),
+          "byMonthNames": widget.byMonthNames.toString()
+        });
         await new StatSaver().saveStats('pfull', stats);
       }
 

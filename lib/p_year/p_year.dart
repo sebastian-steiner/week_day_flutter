@@ -102,6 +102,11 @@ class _PYearState extends State<PYear> {
     int curr = Date.yearCode(remainingCodes.last);
     if (curr == val) {
       if (remainingCodes.length == 1) {
+        stats.options.addAll({
+          "repetitions": widget.repetitions.toString(),
+          "min": widget.min.toString(),
+          "max": widget.max.toString(),
+        });
         await new StatSaver().saveStats('pyear', stats);
       }
 

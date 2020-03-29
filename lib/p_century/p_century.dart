@@ -11,7 +11,12 @@ class PCentury extends StatefulWidget {
   final int min;
   final int max;
 
-  PCentury({Key key, @required this.repetitions, @required this.min, @required this.max}) : super(key: key);
+  PCentury(
+      {Key key,
+      @required this.repetitions,
+      @required this.min,
+      @required this.max})
+      : super(key: key);
 
   @override
   _PCenturyState createState() => _PCenturyState();
@@ -37,6 +42,7 @@ class _PCenturyState extends State<PCentury> {
     remainingCodes = setupCodes();
     remainingCodes.shuffle();
     watch = Stopwatch();
+    stats = new Statistics();
   }
 
   @override
@@ -101,6 +107,11 @@ class _PCenturyState extends State<PCentury> {
     int curr = Date.centuryCode(remainingCodes.last ~/ 100);
     if (curr == val) {
       if (remainingCodes.length == 1) {
+        stats.options.addAll({
+          "repetitions": widget.repetitions.toString(),
+          "min": widget.min.toString(),
+          "max": widget.max.toString()
+        });
         await new StatSaver().saveStats('pcentury', stats);
       }
 
@@ -112,8 +123,8 @@ class _PCenturyState extends State<PCentury> {
 
         remainingCodes.removeLast();
         if (remainingCodes.isEmpty) {
-          Navigator.of(context)
-              .pushReplacement(MaterialPageRoute(builder: (_) => PCenturyEnd(stats: stats)));
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => PCenturyEnd(stats: stats)));
         }
       });
     } else {

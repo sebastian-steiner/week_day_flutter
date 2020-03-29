@@ -101,6 +101,10 @@ class _PMonthState extends State<PMonth> {
     int curr = Date.monthCodes[remainingCodes.last];
     if (curr == val) {
       if (remainingCodes.length == 1) {
+        stats.options.addAll({
+          "repetitions": widget.repetitions.toString(),
+          "byMonthNames": widget.byMonthNames.toString()
+        });
         await new StatSaver().saveStats('pmonth', stats);
       }
 
