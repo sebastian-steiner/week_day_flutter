@@ -18,6 +18,7 @@ class Homepage extends StatelessWidget {
           ),
           NamedNavigatorButton(route: "/PYear", text: "Practice Years"),
           NamedNavigatorButton(route: "/PCentury", text: "Practice Centuries"),
+          NamedNavigatorButton(route: "/PDayMonth", text: "Practice Day-Months"),
           NamedNavigatorButton(route: "/PFull", text: "Practice Full Dates"),
         ],
       ),

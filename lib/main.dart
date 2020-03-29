@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:week_day_flutter/homepage.dart';
+import 'package:week_day_flutter/p_day_month/p_day_month_start.dart';
 import 'package:week_day_flutter/p_month/p_month_start.dart';
 import 'package:week_day_flutter/p_century/p_century_start.dart';
 import 'package:week_day_flutter/p_year/p_year_start.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         '/PYear': (context) => PYearStart(),
         '/PCentury': (context) => PCenturyStart(),
         '/PFull': (context) => PFullStart(),
+        '/PDayMonth': (context) => PDayMonthStart(),
       },
       theme: ThemeData(
           primarySwatch: Colors.blue,

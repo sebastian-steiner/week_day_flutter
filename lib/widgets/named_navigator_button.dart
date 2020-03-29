@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class NamedNavigatorButton extends StatelessWidget {
@@ -15,10 +17,10 @@ class NamedNavigatorButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Container(
-              width: MediaQuery
+              width: max(MediaQuery
                   .of(context)
                   .size
-                  .width - 16,
+                  .width - 16, 0),
               height: 60,
               child: SizedBox.expand(
                 child: RaisedButton(
