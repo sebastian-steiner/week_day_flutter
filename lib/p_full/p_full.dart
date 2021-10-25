@@ -32,6 +32,7 @@ class PFull extends StatefulWidget {
 
 class _PFullState extends State<PFull> {
   List<Date> remainingCodes;
+  Color color;
   Stopwatch watch;
   Random rng;
 
@@ -65,6 +66,7 @@ class _PFullState extends State<PFull> {
     stats = new Statistics();
     remainingCodes = setupCodes();
     remainingCodes.shuffle();
+    color = Colors.black;
   }
 
   @override
@@ -88,7 +90,7 @@ class _PFullState extends State<PFull> {
               ),
               Text(
                 remainingCodes.last.formatDate(widget.byMonthNames),
-                style: Theme.of(context).textTheme.headline1,
+                style: Theme.of(context).textTheme.headline1.copyWith(color: color),
               ),
               AnswerButton(
                 answer: answer,
@@ -146,6 +148,7 @@ class _PFullState extends State<PFull> {
         stats.times.add(watch.elapsed);
         watch.reset();
 
+        color = Colors.green;
         remainingCodes.removeLast();
         if (remainingCodes.isEmpty) {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -155,6 +158,7 @@ class _PFullState extends State<PFull> {
     } else {
       setState(() {
         stats.errors++;
+        color = Colors.redAccent;
       });
     }
   }

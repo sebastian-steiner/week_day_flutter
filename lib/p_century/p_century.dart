@@ -24,6 +24,7 @@ class PCentury extends StatefulWidget {
 
 class _PCenturyState extends State<PCentury> {
   List<int> remainingCodes;
+  Color color;
   Stopwatch watch;
 
   Statistics stats;
@@ -41,6 +42,7 @@ class _PCenturyState extends State<PCentury> {
     super.initState();
     remainingCodes = setupCodes();
     remainingCodes.shuffle();
+    color = Colors.black;
     watch = Stopwatch();
     stats = new Statistics();
   }
@@ -66,7 +68,7 @@ class _PCenturyState extends State<PCentury> {
               ),
               Text(
                 remainingCodes.last.toString(),
-                style: Theme.of(context).textTheme.headline1,
+                style: Theme.of(context).textTheme.headline1.copyWith(color: color),
               ),
               AnswerButton(
                 answer: answer,
@@ -121,6 +123,7 @@ class _PCenturyState extends State<PCentury> {
         stats.times.add(watch.elapsed);
         watch.reset();
 
+        color = Colors.green;
         remainingCodes.removeLast();
         if (remainingCodes.isEmpty) {
           Navigator.of(context).pushReplacement(
@@ -130,6 +133,7 @@ class _PCenturyState extends State<PCentury> {
     } else {
       setState(() {
         stats.errors++;
+        color = Colors.redAccent;
       });
     }
   }

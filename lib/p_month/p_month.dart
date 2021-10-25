@@ -18,6 +18,7 @@ class PMonth extends StatefulWidget {
 
 class _PMonthState extends State<PMonth> {
   List<int> remainingCodes;
+  Color color;
   Stopwatch watch;
 
   Statistics stats;
@@ -36,6 +37,7 @@ class _PMonthState extends State<PMonth> {
     stats = new Statistics();
     remainingCodes = setupCodes();
     remainingCodes.shuffle();
+    color = Colors.black;
     watch = Stopwatch();
   }
 
@@ -60,7 +62,7 @@ class _PMonthState extends State<PMonth> {
               ),
               Text(
                 widget.byMonthNames ? Date.monthNames[remainingCodes.last] : (remainingCodes.last + 1).toString(),
-                style: Theme.of(context).textTheme.headline1,
+                style: Theme.of(context).textTheme.headline1.copyWith(color: color),
               ),
               AnswerButton(
                 answer: answer,
@@ -114,6 +116,7 @@ class _PMonthState extends State<PMonth> {
         stats.times.add(watch.elapsed);
         watch.reset();
 
+        color = Colors.green;
         remainingCodes.removeLast();
         if (remainingCodes.isEmpty) {
           Navigator.of(context)
@@ -123,6 +126,7 @@ class _PMonthState extends State<PMonth> {
     } else {
       setState(() {
         stats.errors++;
+        color = Colors.redAccent;
       });
     }
   }

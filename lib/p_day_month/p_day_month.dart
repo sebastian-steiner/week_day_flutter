@@ -20,6 +20,7 @@ class PDayMonth extends StatefulWidget {
 
 class _PDayMonthState extends State<PDayMonth> {
   List<Date> remainingCodes;
+  Color color;
   Stopwatch watch;
   Random rng;
 
@@ -49,6 +50,7 @@ class _PDayMonthState extends State<PDayMonth> {
     stats = new Statistics();
     remainingCodes = setupCodes();
     remainingCodes.shuffle();
+    color = Colors.black;
     watch = Stopwatch();
   }
 
@@ -73,7 +75,7 @@ class _PDayMonthState extends State<PDayMonth> {
               ),
               Text(
                 remainingCodes.last.formatDayMonth(widget.byMonthNames),
-                style: Theme.of(context).textTheme.headline1,
+                style: Theme.of(context).textTheme.headline1.copyWith(color: color),
               ),
               AnswerButton(
                 answer: answer,
@@ -127,6 +129,7 @@ class _PDayMonthState extends State<PDayMonth> {
         stats.times.add(watch.elapsed);
         watch.reset();
 
+        color = Colors.green;
         remainingCodes.removeLast();
         if (remainingCodes.isEmpty) {
           Navigator.of(context)
@@ -136,6 +139,7 @@ class _PDayMonthState extends State<PDayMonth> {
     } else {
       setState(() {
         stats.errors++;
+        color = Colors.redAccent;
       });
     }
   }
