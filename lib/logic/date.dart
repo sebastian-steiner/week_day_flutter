@@ -27,7 +27,7 @@ class Date {
     if (year == null) {
       yearCode = 0;
     } else {
-      if (isLeapYear(year) && month < 3) {
+      if (isLeapYear(year) && month < 2) {
         yearCode = Date.yearCode(year % 100) - 1;
       } else {
         yearCode = Date.yearCode(year % 100);
