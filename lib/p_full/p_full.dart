@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:week_day_flutter/logic/date.dart';
 import 'package:week_day_flutter/logic/stat_saver.dart';
@@ -47,15 +48,15 @@ class _PFullState extends State<PFull> {
   }
 
   Date createDate() {
-    int century = (rng.nextInt((widget.maxCentury - widget.minCentury) ~/ 100 + 1) * 100) + widget.minCentury;
-    int year = rng.nextInt(widget.maxYear - widget.minYear + 1) + widget.minYear;
+    int century =
+        (rng.nextInt((widget.maxCentury - widget.minCentury) ~/ 100 + 1) *
+                100) +
+            widget.minCentury;
+    int year =
+        rng.nextInt(widget.maxYear - widget.minYear + 1) + widget.minYear;
     int month = rng.nextInt(12);
     int day = rng.nextInt(Date.maxDayFromDate(month, year: year)) + 1;
-    return new Date(
-      year: century + year,
-      month: month,
-      day: day
-    );
+    return new Date(year: century + year, month: month, day: day);
   }
 
   @override
@@ -88,10 +89,14 @@ class _PFullState extends State<PFull> {
                 "Date:",
                 style: Theme.of(context).textTheme.headline2,
               ),
-              Text(
+              Expanded(
+                  child: AutoSizeText(
                 remainingCodes.last.formatDate(widget.byMonthNames),
-                style: Theme.of(context).textTheme.headline1.copyWith(color: color),
-              ),
+                style: TextStyle(fontWeight: FontWeight.bold),
+                maxFontSize: 60,
+                minFontSize: 50,
+                maxLines: 2,
+              )),
               AnswerButton(
                 answer: answer,
                 val: 0,
@@ -151,8 +156,8 @@ class _PFullState extends State<PFull> {
         color = Colors.green;
         remainingCodes.removeLast();
         if (remainingCodes.isEmpty) {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (_) => PFullEnd(stats: stats)));
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => PFullEnd(stats: stats)));
         }
       });
     } else {
