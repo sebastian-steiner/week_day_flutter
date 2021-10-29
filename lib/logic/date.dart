@@ -59,6 +59,7 @@ class Date {
   }
 
   static int maxDayFromDate(int month, {int year = 1}) {
+    month++;
     if (month == 2) {
       return isLeapYear(year) ? 29 : 28;
     } else if (month == 4 || month == 6 || month == 9 || month == 11) {
